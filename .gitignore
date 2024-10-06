@@ -1,0 +1,66 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Flask environment files
+instance/
+*.env
+*.flaskenv
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Pytest cache
+.pytest_cache/
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.env/
+.venv/
+
+# IDE / Editor files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*.tlog
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker specific
+.dockerignore
+.env.docker
+docker-compose.override.yml
+
+# Test coverage output
+htmlcov/
+.coverage
+coverage.xml
+.hypothesis/
