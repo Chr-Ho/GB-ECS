@@ -1,6 +1,6 @@
 # Dockerfile
 
-# Use the official Python 3.10 image as the base image (instead of 3.12)
+# Use the official Python 3.10 image as the base image
 FROM python:3.10-slim
 
 # Create a non-root user and set it as the default user
