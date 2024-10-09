@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check In Equipment</title>
+</head>
+<body>
+    <h1>Check In Equipment</h1>
+    <form action="/api/check_in" method="POST">
+        <label for="user_id">User ID:</label>
+        <input type="text" id="user_id" name="user_id" required><br><br>
+
+        <label for="equipment_id">Equipment ID:</label>
+        <input type="text" id="equipment_id" name="equipment_id" required><br><br>
+
+        <button type="submit">Check In</button>
+    </form>
+    <a href="/">Back to Home</a>
+</body>
+</html>
