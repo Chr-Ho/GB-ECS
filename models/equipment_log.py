@@ -2,9 +2,15 @@
 # Equipment Log Model
 
 class EquipmentLog:
-    def __init__(self, id, equipment_id, user_id, check_out_time, check_in_time):
+    def __init__(self, id, equipment_id):
         self.id = id
         self.equipment_id = equipment_id
-        self.user_id = user_id
-        self.check_out_time = check_out_time
-        self.check_in_time = check_in_time
+
+        import csv
+        with open('Equipmentlist.csv', mode='r,w') as file:
+            writer = csv.writer(file)
+            reader = csv.reader(file)
+            for row in reader:
+                print(row)
+            writer.writerow(['id', 'equipment_id']) 
+        

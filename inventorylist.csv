@@ -1,0 +1,12 @@
+id,item_name,warehouse_location,quantity
+100,grinders,A,9
+101,drills,A,12
+102,ratchets,B,31
+103,screws,A,400
+104,shrink wrap,B,45
+105,headlights,B,18
+106,lamps,A,26
+107,hard hats,A,46
+108,mixers,B,20
+109,hammers,A,35
+110,extracters,A,6

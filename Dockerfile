@@ -5,7 +5,7 @@ FROM python:3.10-slim
 
 # Create a non-root user and set it as the default user
 RUN useradd -m celeryuser
-USER celeryuser
+#USER celeryuser
 
 # Set the working directory in the container
 WORKDIR /app
