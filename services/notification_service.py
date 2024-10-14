@@ -2,8 +2,10 @@
 # Notification Service
 
 class NotificationService:
-    def send_notification(self, user_id, message):
-        pass  # Placeholder for sending notification
-
+    
+    def send_notficiation(self, user_id, message):
+        print(user_id, message)
+        
     def notify_overdue_equipment(self, equipment_id, user_id):
-        pass  # Placeholder for notifying overdue equipment
+        if overdue:#placeholder
+            self.send_notification(user_id, "Equipment overdue")

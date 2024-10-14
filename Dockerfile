@@ -1,30 +1,27 @@
 # Dockerfile
 
-# Use the official Python 3.10 image as the base image
 FROM python:3.10-slim
 
-# Create a non-root user and set it as the default user
+# Create a user for Celery worker security
 RUN useradd -m celeryuser
-#USER celeryuser
 
-# Set the working directory in the container
+# Set working directory in container
 WORKDIR /app
 
-# Copy the requirements.txt file into the container
-COPY requirements.txt .
+# Copy requirements.txt first for caching purpose
+COPY requirements.txt requirements.txt
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code into the container
+# Copy rest of the application
 COPY . .
 
-# Set environment variables
+# Set environment variable for Flask app
 ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
 
-# Expose the port that Flask runs on
-EXPOSE 5000
+# Set the user to run subsequent commands
+# USER celeryuser
 
-# Command to run the application
-CMD ["flask", "run"]
+# Default command (for the web container)
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
