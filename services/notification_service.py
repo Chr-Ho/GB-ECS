@@ -3,7 +3,7 @@
 
 class NotificationService:
     
-    def send_notficiation(self, user_id, message):
+    def send_notification(self, user_id, message):
         print(user_id, message)
         
     def notify_overdue_equipment(self, equipment_id, user_id):

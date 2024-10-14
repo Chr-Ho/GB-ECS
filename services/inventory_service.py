@@ -5,28 +5,53 @@ import sqlite3
 
 class InventoryManagementService:
     
-    def update_inventory (self, equipment_id, name, quantity, warehouse_location):
-        connection = sqlite3.connect('equipment_tracking.db')
-        cursor = connection.cursor()
-        
-        result = cursor.exectute("SELECT equipment_id FROM equipment where equipment_id = ?", (equipment_id))
-        if result.fetchone() == equipment_id:
-            cursor.execute("UPDATE equipment SET quantity = ? , SET warehouse_location = ? , SET name = ? WHERE equipment_id = ?", (quantity, warehouse_location, name, equipment_id))
-        else:
-            return("Item not found")
-        connection.commit()
-        connection.close()
-        
-    def get_inventory(self, equipment_id):
-        connection = sqlite3.connect('equipment_tracking.db')
-        cursor = connection.cursor()
-        
-        item = InventoryItem()
-        
-        result = cursor.exectue("SELECT eqipment_id, name, quantity, warehouse_location FROM equipment WHERE equipment_id = ?"(equipment_id))
-        result.fetchone()
-        
-        item.id = result[0]
-        item.name = result[1]
-        item.quantity = result[2]
-        item.warehouse_location = result[3]
+    def update_inventory(self, item_id, name, quantity, warehouse_location):
+        try:
+            connection = sqlite3.connect('equipment_tracking.db')
+            cursor = connection.cursor()
+            
+            # Check if the item exists in the inventory
+            cursor.execute("SELECT item_id FROM inventory WHERE item_id = ?", (item_id,))
+            result = cursor.fetchone()
+            
+            if result:
+                # Update the inventory item
+                cursor.execute("UPDATE inventory SET name = ?, quantity = ?, warehouse_location = ? WHERE item_id = ?",
+                               (name, quantity, warehouse_location, item_id))
+                connection.commit()
+                return True  # Indicate success
+            else:
+                return "Item not found"  # Indicate that the item does not exist
+
+        except sqlite3.Error as e:
+            # Log the error for debugging purposes
+            print(f"Database error occurred while updating inventory: {e}")
+            return False  # Indicate failure
+        finally:
+            connection.close()  # Ensure the connection is closed
+
+    def get_inventory(self, item_id):
+        try:
+            connection = sqlite3.connect('equipment_tracking.db')
+            cursor = connection.cursor()
+            
+            # Query the inventory for the specified item_id
+            cursor.execute("SELECT item_id, name, quantity, warehouse_location FROM inventory WHERE item_id = ?", (item_id,))
+            item = cursor.fetchone()
+            
+            if item:
+                return {
+                    'item_id': item[0],
+                    'name': item[1],
+                    'quantity': item[2],
+                    'warehouse_location': item[3]
+                }
+            else:
+                return None  # Item not found
+
+        except sqlite3.Error as e:
+            # Log the error for debugging purposes
+            print(f"Database error occurred while retrieving inventory: {e}")
+            return None  # Indicate failure
+        finally:
+            connection.close()  # Ensure the connection is closed

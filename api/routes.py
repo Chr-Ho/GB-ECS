@@ -17,34 +17,32 @@ notification_service = NotificationService()
 # Route for checking out equipment
 @api_blueprint.route('/check_out', methods=['POST'])
 def check_out():
-    data = request.get_json()
-    user_id = data.get('user_id')
-    equipment_id = data.get('equipment_id')
-    
+    user_id = request.form.get('user_id')  # Extract user_id from form data
+    equipment_id = request.form.get('equipment_id')  # Extract equipment_id from form data
+
     if not user_id or not equipment_id:
-        return jsonify({'error': 'user_id and equipment_id are required'}), 400
-    
-    result = equipment_service.check_out_equipment(user_id, equipment_id)
-    if result:
-        return jsonify({'message': 'Equipment checked out successfully'}), 200
+        return jsonify({'error': 'Missing user_id or equipment_id'}), 400
+
+    success = equipment_service.check_out_equipment(user_id, equipment_id)
+    if success:
+        return jsonify({'message': f'Equipment {equipment_id} successfully checked out by user {user_id}.'}), 200
     else:
-        return jsonify({'error': 'Equipment could not be checked out'}), 400
+        return jsonify({'error': 'Failed to check out equipment.'}), 400
 
 # Route for checking in equipment
 @api_blueprint.route('/check_in', methods=['POST'])
 def check_in():
-    data = request.get_json()
-    user_id = data.get('user_id')
-    equipment_id = data.get('equipment_id')
-    
+    user_id = request.form.get('user_id')  # Extract user_id from form data
+    equipment_id = request.form.get('equipment_id')  # Extract equipment_id from form data
+
     if not user_id or not equipment_id:
-        return jsonify({'error': 'user_id and equipment_id are required'}), 400
-    
-    result = equipment_service.check_in_equipment(user_id, equipment_id)
-    if result:
-        return jsonify({'message': 'Equipment checked in successfully'}), 200
+        return jsonify({'error': 'Missing user_id or equipment_id'}), 400
+
+    success = equipment_service.check_in_equipment(user_id, equipment_id)
+    if success:
+        return jsonify({'message': f'Equipment {equipment_id} successfully checked in by user {user_id}.'}), 200
     else:
-        return jsonify({'error': 'Equipment could not be checked in'}), 400
+        return jsonify({'error': 'Failed to check in equipment.'}), 400
 
 # Route for updating inventory
 @api_blueprint.route('/update_inventory', methods=['POST'])

@@ -17,12 +17,23 @@ def initialize_database():
 
     # Create equipment table
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS equipment (
-            equipment_id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL,
-            status TEXT NOT NULL,
-            current_user_id INTEGER,
-            FOREIGN KEY (current_user_id) REFERENCES users(user_id)
+    CREATE TABLE IF NOT EXISTS equipment (
+        equipment_id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        status TEXT NOT NULL,
+        current_user_id INTEGER,
+        FOREIGN KEY (current_user_id) REFERENCES users(user_id)
+        )
+    ''')
+
+
+    # Create inventory table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS inventory (
+            id TEXT PRIMARY KEY,
+            item_name TEXT NOT NULL,
+            quantity INTEGER NOT NULL,
+            warehouse_location TEXT NOT NULL
         )
     ''')
 
@@ -41,9 +52,21 @@ def initialize_database():
     connection.commit()
     connection.close()
 
+# After initializing the database, test the connection
+def test_connection():
+    try:
+        connection = sqlite3.connect('equipment_tracking.db')
+        cursor = connection.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cursor.fetchall()
+        print("Tables in the database:", tables)
+        connection.close()
+    except Exception as e:
+        print("Error connecting to the database:", e)
+
 if __name__ == '__main__':
     initialize_database()
-    print("Database initialized and tables created.")
+    test_connection()  # Call the test function
 
 # Integrating SQLite with services
 # Update services to use the SQLite database for CRUD operations

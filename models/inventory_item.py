@@ -9,11 +9,12 @@ class InventoryItem:
         self.quantity = quantity
 
         import csv
-        with open('Inventorylist.csv', mode='r,w') as file:
+        with open('Inventorylist.csv', mode='r+') as file:
             writer = csv.writer(file)
             reader = csv.reader(file)
             for row in reader:
                 print(row)
             writer.writerow(['id', 'item_name', 'warehouse_location', 'quantity'])  
+
 
 
