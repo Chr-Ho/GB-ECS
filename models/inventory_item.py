@@ -7,3 +7,13 @@ class InventoryItem:
         self.item_name = item_name
         self.warehouse_location = warehouse_location
         self.quantity = quantity
+
+        import csv
+        with open('Inventorylist.csv', mode='r,w') as file:
+            writer = csv.writer(file)
+            reader = csv.reader(file)
+            for row in reader:
+                print(row)
+            writer.writerow(['id', 'item_name', 'warehouse_location', 'quantity'])  
+
+

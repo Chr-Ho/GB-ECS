@@ -21,7 +21,7 @@ COPY . .
 ENV FLASK_APP=app.py
 
 # Set the user to run subsequent commands
-#USER celeryuser
+# USER celeryuser
 
 # Default command (for the web container)
 CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
