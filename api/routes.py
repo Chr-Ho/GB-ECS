@@ -1,6 +1,3 @@
-# api/routes.py
-# routes.py
-
 from flask import Blueprint, request, jsonify
 from services.equipment_service import EquipmentManagementService
 from services.inventory_service import InventoryManagementService
