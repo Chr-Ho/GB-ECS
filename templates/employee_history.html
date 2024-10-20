@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Equipment Usage History</title>
+</head>
+<body>
+    <h2>Employee Equipment Usage History</h2>
+    <table border="1">
+        <tr>
+            <th>Equipment ID</th>
+            <th>Check-Out Date</th>
+            <th>Check-In Date</th>
+            <th>Status</th>
+        </tr>
+        {% for record in history %}
+        <tr>
+            <td>{{ record['equipment_id'] }}</td>
+            <td>{{ record['checkout_date'] }}</td>
+            <td>{{ record['checkin_date'] }}</td>
+            <td>{{ record['status'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/">Back to Home</a> <!-- Back to Home link -->
+</body>
+</html>

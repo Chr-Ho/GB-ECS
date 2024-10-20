@@ -1,8 +1,10 @@
 # app.py
 # Main file to run the Flask app. Import routes from api/routes.py and run the server from this file.
 
-from flask import Flask, render_template
+from flask import Flask, redirect, url_for, render_template, request
 from api.routes import api_blueprint
+from services.equipment_service import equipment_service
+from services.user_service import user_service  # Import user_service
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -34,6 +36,60 @@ def update_inventory_page():
 @app.route('/view_inventory')
 def view_inventory_page():
     return render_template('view_inventory.html')
+
+# Route for viewing equipment
+@app.route('/view_equipment')
+def view_equipment_page():
+    return render_template('view_equipment.html')
+
+# Route for viewing users
+@app.route('/view_users')
+def view_users_page():
+    users = user_service.get_all_users()  # Fetch all users
+    return render_template('view_users.html', users=users)
+
+# Route for viewing equipment history
+@app.route('/equipment_history')
+def equipment_history_page():
+    return render_template('equipment_history.html')
+
+# Route for employee history search page
+@app.route('/employee_history_search')
+def employee_history_search():
+    return render_template('employee_history_search.html')
+
+# Route for manager login
+@app.route('/manager_login', methods=['GET', 'POST'])
+def manager_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        # Validate credentials
+        if username == 'manager' and password == 'password':
+            return redirect(url_for('manager_dashboard'))
+        else:
+            return "Invalid credentials, please try again.", 401
+    
+    return render_template('manager_login.html')
+
+# Route for Employee History
+@app.route('/employee_history', methods=['GET', 'POST'])
+def employee_history():
+    if request.method == 'POST':
+        user_id = request.form['user_id']
+        # Fetch employee equipment usage history
+        history = equipment_service.get_equipment_history(user_id)
+        if history:
+            return render_template('employee_history.html', history=history)
+        else:
+            return "No history found for the provided User ID.", 404
+    return render_template('employee_history_search.html')
+
+# Route for manager dashboard
+@app.route('/manager_dashboard')
+def manager_dashboard():
+    return render_template('manager_dashboard.html')
 
 # Main entry point
 if __name__ == '__main__':

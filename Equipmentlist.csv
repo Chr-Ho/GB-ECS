@@ -1,4 +1,4 @@
-name,equipment_id,status,current_user_id
+equipment_name,equipment_id,status,current_user_id
 hammer,hmmr_01,in,1
 hammer,hmmr_02,in,1
 drill,drl_01,in,1
@@ -15,3 +15,4 @@ wrench,wrch_02,in,1
 ppeset,ppe_01,in,1
 ppeset,ppe_02,in,1
 gloves,glvs_01,in,1
+test,1234,in,1

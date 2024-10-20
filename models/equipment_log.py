@@ -2,8 +2,8 @@
 # Equipment Log Model
 
 class EquipmentLog:
-    def __init__(self, id, equipment_id):
-        self.id = id
+    def __init__(self, log_id, equipment_id):
+        self.id = log_id
         self.equipment_id = equipment_id
 
         import csv
@@ -12,4 +12,5 @@ class EquipmentLog:
             reader = csv.reader(file)
             for row in reader:
                 print(row)
-            writer.writerow(['id', 'equipment_id']) 
+            writer.writerow(['equipment_id', 'id'])  # Ensure consistent naming
+

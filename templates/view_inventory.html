@@ -15,7 +15,7 @@
                 resultDiv.innerHTML = `
                     <h2>Inventory Item Details</h2>
                     <p>Equipment ID: ${data.equipment_id}</p>
-                    <p>Name: ${data.name}</p>
+                    <p>Name: ${data.equipment_name}</p>
                     <p>Quantity: ${data.quantity}</p>
                     <p>Warehouse Location: ${data.warehouse_location}</p>
                 `;
@@ -29,7 +29,7 @@
     <h1>View Inventory</h1>
     <form onsubmit="event.preventDefault(); fetchInventory();">
         <label for="item_id">Item ID:</label>
-        <input type="text" id="item_id" name="item_id" required><br><br>
+        <input type="text" id="item_id" name="item_name" required><br><br>
         <button type="submit">View Item</button>
     </form>
     <div id="result"></div>

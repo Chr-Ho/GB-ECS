@@ -10,7 +10,7 @@ def initialize_database():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL,
+            user_name TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE
         )
     ''')
@@ -19,7 +19,7 @@ def initialize_database():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS equipment (
         equipment_id TEXT PRIMARY KEY,
-        name TEXT NOT NULL,
+        equipment_name TEXT NOT NULL,
         status TEXT NOT NULL,
         current_user_id INTEGER,
         FOREIGN KEY (current_user_id) REFERENCES users(user_id)
@@ -30,7 +30,7 @@ def initialize_database():
     # Create inventory table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS inventory (
-            id TEXT PRIMARY KEY,
+            item_id TEXT PRIMARY KEY,
             item_name TEXT NOT NULL,
             quantity INTEGER NOT NULL,
             warehouse_location TEXT NOT NULL
