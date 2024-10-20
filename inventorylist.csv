@@ -1,4 +1,4 @@
-id,item_name,warehouse_location,quantity
+item_id,item_name,warehouse_location,quantity
 100,grinders,A,9
 101,drills,A,12
 102,ratchets,B,31
@@ -9,4 +9,4 @@ id,item_name,warehouse_location,quantity
 107,hard hats,A,46
 108,mixers,B,20
 109,hammers,A,35
-110,extracters,A,6
+567,extracters,A,6

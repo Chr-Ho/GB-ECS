@@ -5,7 +5,7 @@ import sqlite3
 
 class InventoryManagementService:
     
-    def update_inventory(self, item_id, name, quantity, warehouse_location):
+    def update_inventory(self, item_id, item_name, quantity, warehouse_location):
         try:
             connection = sqlite3.connect('equipment_tracking.db')
             cursor = connection.cursor()
@@ -16,8 +16,8 @@ class InventoryManagementService:
             
             if result:
                 # Update the inventory item
-                cursor.execute("UPDATE inventory SET name = ?, quantity = ?, warehouse_location = ? WHERE item_id = ?",
-                               (name, quantity, warehouse_location, item_id))
+                cursor.execute("UPDATE inventory SET item_name = ?, quantity = ?, warehouse_location = ? WHERE item_id = ?",
+                               (item_name, quantity, warehouse_location, item_id))
                 connection.commit()
                 return True  # Indicate success
             else:
@@ -36,13 +36,13 @@ class InventoryManagementService:
             cursor = connection.cursor()
             
             # Query the inventory for the specified item_id
-            cursor.execute("SELECT item_id, name, quantity, warehouse_location FROM inventory WHERE item_id = ?", (item_id,))
+            cursor.execute("SELECT item_id, item_name, quantity, warehouse_location FROM inventory WHERE item_id = ?", (item_id,))
             item = cursor.fetchone()
             
             if item:
                 return {
                     'item_id': item[0],
-                    'name': item[1],
+                    'item_name': item[1],
                     'quantity': item[2],
                     'warehouse_location': item[3]
                 }

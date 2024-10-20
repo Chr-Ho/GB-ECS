@@ -2,8 +2,8 @@
 # Inventory Item Model
 
 class InventoryItem:
-    def __init__(self, id, item_name, warehouse_location, quantity):
-        self.id = id
+    def __init__(self, item_id, item_name, warehouse_location, quantity):
+        self.item_id = item_id
         self.item_name = item_name
         self.warehouse_location = warehouse_location
         self.quantity = quantity
@@ -14,7 +14,7 @@ class InventoryItem:
             reader = csv.reader(file)
             for row in reader:
                 print(row)
-            writer.writerow(['id', 'item_name', 'warehouse_location', 'quantity'])  
+            writer.writerow(['item_id', 'item_name', 'warehouse_location', 'quantity'])  # Ensure consistent naming
 
 
 

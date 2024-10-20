@@ -32,13 +32,3 @@ class NotificationService:
     def get_notifications(self):
         # Return all notifications (for testing or logging)
         return self.notifications
-
-# Example usage
-if __name__ == "__main__":
-    notification_service = NotificationService()
-    sample_equipment_list = [
-        {"equipment_id": "hmmr_01", "due_date": "2024-10-12"},
-        {"equipment_id": "drll_02", "due_date": "2024-10-17"}
-    ]
-    notification_service.check_for_overdue_items(sample_equipment_list)
-    print(notification_service.get_notifications())

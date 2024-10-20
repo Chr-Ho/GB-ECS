@@ -4,6 +4,7 @@
 from flask import Flask, redirect, url_for, render_template, request
 from api.routes import api_blueprint
 from services.equipment_service import equipment_service
+from services.user_service import user_service  # Import user_service
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -44,7 +45,8 @@ def view_equipment_page():
 # Route for viewing users
 @app.route('/view_users')
 def view_users_page():
-    return render_template('view_users.html')
+    users = user_service.get_all_users()  # Fetch all users
+    return render_template('view_users.html', users=users)
 
 # Route for viewing equipment history
 @app.route('/equipment_history')

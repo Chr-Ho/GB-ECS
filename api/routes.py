@@ -66,7 +66,7 @@ def get_inventory(item_id):
         return jsonify(result), 200
     else:
         return jsonify({'error': 'Item not found'}), 404
-
+    
 # Route for sending notifications
 @api_blueprint.route('/send_notification', methods=['POST'])
 def send_notification():
