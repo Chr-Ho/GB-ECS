@@ -79,3 +79,22 @@ def send_notification():
     
     notification_service.send_notification(user_id, message)
     return jsonify({'message': 'Notification sent successfully'}), 200
+
+# Route for reporting equipment exceptions
+@api_blueprint.route('/report_exception', methods=['POST'])
+def report_exception():
+    data = request.get_json()
+    equipment_id = data.get('equipment_id')
+    status = data.get('status')
+
+    if not equipment_id or not status:
+        return jsonify({'error': 'equipment_id and status are required'}), 400
+
+    # Here you would log the exception report in your database
+    # For demonstration, we will just print it
+    print(f"Reporting exception for equipment {equipment_id} with status '{status}'.")
+
+    # Send notification to the inventory manager
+    notification_service.send_exception_notification(equipment_id, status)
+
+    return jsonify({'message': 'Exception report generated successfully.'}), 200

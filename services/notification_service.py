@@ -32,3 +32,8 @@ class NotificationService:
     def get_notifications(self):
         # Return all notifications (for testing or logging)
         return self.notifications
+
+    def send_exception_notification(self, equipment_id, status):
+        message = f"Exception reported for equipment {equipment_id}: Status - {status}."
+        # Here you can implement the logic to send the notification (e.g., email, log, etc.)
+        print(message)  # For demonstration, we will just print it
