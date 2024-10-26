@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Exception</title>
+</head>
+<body>
+    <h1>Report Equipment Exception</h1>
+    <form action="/api/report_exception" method="POST">
+        <label for="equipment_id">Equipment ID:</label>
+        <input type="text" id="equipment_id" name="equipment_id" required><br><br>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="damaged">Damaged</option>
+            <option value="missing">Missing</option>
+            <option value="stolen">Stolen</option>
+        </select><br><br>
+
+        <button type="submit">Report Exception</button>
+    </form>
+    <a href="/">Back to Home</a>
+</body>
+</html>

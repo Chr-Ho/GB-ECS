@@ -91,6 +91,11 @@ def employee_history():
 def manager_dashboard():
     return render_template('manager_dashboard.html')
 
+# Route for reporting exceptions
+@app.route('/report_exception')
+def report_exception_page():
+    return render_template('report_exception.html')
+
 # Main entry point
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
