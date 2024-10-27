@@ -101,17 +101,14 @@ def manager_login():
     return render_template('manager_login.html')
 
 # Route for Employee History
-@app.route('/employee_history', methods=['GET', 'POST'])
+@app.route('/employee_history', methods=['GET'])
 def employee_history():
-    if request.method == 'POST':
-        user_id = request.form['user_id']
-        # Fetch employee equipment usage history
-        history = equipment_service.get_equipment_history(user_id)
-        if history:
-            return render_template('employee_history.html', history=history)
-        else:
-            return "No history found for the provided User ID.", 404
-    return render_template('employee_history_search.html')
+    # Fetch all employee equipment usage history
+    history = equipment_service.get_all_employee_usage_history()
+    if history:
+        return render_template('employee_history.html', equipment_history=history)
+    else:
+        return "No history found.", 404
 
 # Route for manager dashboard
 @app.route('/manager_dashboard')

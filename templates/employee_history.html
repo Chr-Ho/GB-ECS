@@ -9,20 +9,20 @@
     <h2>Employee Equipment Usage History</h2>
     <table border="1">
         <tr>
+            <th>User ID</th>
             <th>Equipment ID</th>
-            <th>Equipment Name</th>
-            <th>Status</th>
-            <th>Current User ID</th>
+            <th>Action</th>
+            <th>Timestamp</th>
         </tr>
-        {% for equipment in equipment_history %}
+        {% for record in equipment_history %}
         <tr>
-            <td>{{ equipment.equipment_id }}</td>
-            <td>{{ equipment.equipment_name }}</td>
-            <td>{{ equipment.status }}</td>
-            <td>{{ equipment.current_user_id }}</td>
+            <td>{{ record.user_id }}</td>
+            <td>{{ record.equipment_id }}</td>
+            <td>{{ record.action }}</td>
+            <td>{{ record.timestamp }}</td>
         </tr>
         {% endfor %}
     </table>
-    <a href="/manager_dashboard">Back to Dashboard</a> <!-- Back to Dashboard link -->
+    <a href="/manager_dashboard">Back to Dashboard</a>
 </body>
 </html>

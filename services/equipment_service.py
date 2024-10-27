@@ -9,13 +9,20 @@ class EquipmentService:
         self.equipment_history = []
 
     def log_equipment_usage(self, user_id, equipment_id, action):
-        # Log check-out/check-in events
-        self.equipment_history.append({
-            'user_id': user_id,
-            'equipment_id': equipment_id,
-            'action': action,
-            'date': datetime.datetime.now()
-        })
+        try:
+            connection = sqlite3.connect('equipment_tracking.db')
+            cursor = connection.cursor()
+            
+            cursor.execute('''
+                INSERT INTO equipment_usage_history (user_id, equipment_id, action)
+                VALUES (?, ?, ?)
+            ''', (user_id, equipment_id, action))
+            
+            connection.commit()
+        except sqlite3.Error as e:
+            print(f"Database error occurred while logging equipment usage: {e}")
+        finally:
+            connection.close()
 
     def get_equipment_history(self, user_id):
         # Retrieve all history related to the provided user_id
@@ -42,7 +49,7 @@ class EquipmentManagementService(EquipmentService):
                 connection.commit()
                 
                 # Log the equipment usage
-                self.log_equipment_usage(user_id, equipment_id, 'out')
+                self.log_equipment_usage(user_id, equipment_id, 'check_out')
                 
                 return True
             else:
@@ -70,7 +77,7 @@ class EquipmentManagementService(EquipmentService):
             connection.commit()
             
             # Log the equipment usage with None as the user_id
-            self.log_equipment_usage(None, equipment_id, 'in')
+            self.log_equipment_usage(user_id, equipment_id, 'check_in')
             
             connection.close()
             return True
@@ -102,5 +109,23 @@ class EquipmentManagementService(EquipmentService):
             return []
         finally:
             connection.close()  # Ensure the connection is closed
+
+    def get_all_employee_usage_history(self):
+        try:
+            connection = sqlite3.connect('equipment_tracking.db')
+            cursor = connection.cursor()
+            
+            cursor.execute('''
+                SELECT user_id, equipment_id, action, timestamp
+                FROM equipment_usage_history
+                ORDER BY timestamp DESC
+            ''')
+            
+            return cursor.fetchall()  # This will return a list of tuples
+        except sqlite3.Error as e:
+            print(f"Database error occurred while retrieving all employee usage history: {e}")
+            return []
+        finally:
+            connection.close()
 
 equipment_service = EquipmentManagementService()  # Instantiate the service

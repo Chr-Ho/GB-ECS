@@ -111,3 +111,21 @@ def report_exception():
     notification_service.send_exception_notification(equipment_id, status)
 
     return jsonify({'message': 'Exception report generated successfully.'}), 200
+
+def log_equipment_usage(self, user_id, equipment_id, action):
+    try:
+        connection = sqlite3.connect('equipment_tracking.db')
+        cursor = connection.cursor()
+        
+        cursor.execute('''
+            INSERT INTO equipment_usage_history (user_id, equipment_id, action)
+            VALUES (?, ?, ?)
+        ''', (user_id, equipment_id, action))
+        
+        connection.commit()
+    except sqlite3.Error as e:
+        print(f"Database error occurred while logging equipment usage: {e}")
+    finally:
+        connection.close()
+
+

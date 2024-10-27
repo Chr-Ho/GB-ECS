@@ -48,6 +48,19 @@ def initialize_database():
         )
     ''')
 
+    # Create equipment usage history table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS equipment_usage_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            equipment_id TEXT NOT NULL,
+            action TEXT NOT NULL,  -- 'check_out' or 'check_in'
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(user_id),
+            FOREIGN KEY (equipment_id) REFERENCES equipment(equipment_id)
+        )
+    ''')
+
     # Commit changes and close the connection
     connection.commit()
     connection.close()
@@ -104,3 +117,4 @@ class EquipmentManagementService:
             return True
         connection.close()
         return False
+
