@@ -63,12 +63,18 @@ class EquipmentManagementService(EquipmentService):
         # Check if the equipment is currently checked out by the user
         cursor.execute("SELECT status, current_user_id FROM equipment WHERE equipment_id = ?", (equipment_id,))
         result = cursor.fetchone()
+        
         if result and result[0] == 'out' and result[1] == int(user_id):
             # Update equipment status to available
             cursor.execute("UPDATE equipment SET status = ?, current_user_id = NULL WHERE equipment_id = ?", ('in', equipment_id))
             connection.commit()
+            
+            # Log the equipment usage with None as the user_id
+            self.log_equipment_usage(None, equipment_id, 'in')
+            
             connection.close()
             return True
+        
         connection.close()
         return False
 
@@ -76,11 +82,11 @@ class EquipmentManagementService(EquipmentService):
         try:
             connection = sqlite3.connect('equipment_tracking.db')
             cursor = connection.cursor()
-            
+        
             # Query to fetch all equipment
             cursor.execute("SELECT equipment_id, equipment_name, status, current_user_id FROM equipment")
             equipment = cursor.fetchall()
-            
+        
             # Convert to a list of dictionaries for easier access in the template
             return [
                 {

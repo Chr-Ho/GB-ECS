@@ -75,7 +75,9 @@ with open('equipmentlist.csv', newline='') as csvfile:
             equipment_id = str(row['equipment_id'])  # Now treating equipment_id as a string
             equipment_name = str(row['equipment_name'])
             status = str(row['status'])
-            current_user_id = int(row['current_user_id']) if row['current_user_id'] else None  # Ensure current_user_id is an integer or None
+            # Check if current_user_id is 'None' and set it to None, otherwise convert to int
+            current_user_id = int(row['current_user_id']) if row['current_user_id'] != 'None' else None
+            
             cursor.execute('INSERT OR REPLACE INTO equipment (equipment_id, equipment_name, status, current_user_id) VALUES (?, ?, ?, ?)',
                            (equipment_id, equipment_name, status, current_user_id))
         except ValueError as e:

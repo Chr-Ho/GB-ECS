@@ -55,3 +55,28 @@ class InventoryManagementService:
             return None  # Indicate failure
         finally:
             connection.close()  # Ensure the connection is closed
+
+    def get_all_inventory(self):
+        try:
+            connection = sqlite3.connect('equipment_tracking.db')
+            cursor = connection.cursor()
+            
+            # Query to fetch all inventory
+            cursor.execute("SELECT item_id, item_name, quantity, warehouse_location FROM inventory")
+            inventory = cursor.fetchall()
+            
+            # Convert to a list of dictionaries for easier access in the template
+            return [
+                {
+                    'item_id': item[0],
+                    'item_name': item[1],
+                    'quantity': item[2],
+                    'warehouse_location': item[3]
+                }
+                for item in inventory
+            ]
+        except sqlite3.Error as e:
+            print(f"Database error occurred while retrieving inventory: {e}")
+            return []
+        finally:
+            connection.close()  # Ensure the connection is closed

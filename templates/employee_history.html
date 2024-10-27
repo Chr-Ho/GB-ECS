@@ -10,19 +10,19 @@
     <table border="1">
         <tr>
             <th>Equipment ID</th>
-            <th>Check-Out Date</th>
-            <th>Check-In Date</th>
+            <th>Equipment Name</th>
             <th>Status</th>
+            <th>Current User ID</th>
         </tr>
-        {% for record in history %}
+        {% for equipment in equipment_history %}
         <tr>
-            <td>{{ record['equipment_id'] }}</td>
-            <td>{{ record['checkout_date'] }}</td>
-            <td>{{ record['checkin_date'] }}</td>
-            <td>{{ record['status'] }}</td>
+            <td>{{ equipment.equipment_id }}</td>
+            <td>{{ equipment.equipment_name }}</td>
+            <td>{{ equipment.status }}</td>
+            <td>{{ equipment.current_user_id }}</td>
         </tr>
         {% endfor %}
     </table>
-    <a href="/">Back to Home</a> <!-- Back to Home link -->
+    <a href="/manager_dashboard">Back to Dashboard</a> <!-- Back to Dashboard link -->
 </body>
 </html>

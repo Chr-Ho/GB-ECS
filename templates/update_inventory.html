@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Update Inventory</h1>
-    <form action="/api/update_inventory" method="POST">
+    <form action="/update_inventory" method="POST">
         <label for="item_id">Item ID:</label>
         <input type="text" id="item_id" name="item_id" required><br><br>
 
@@ -19,6 +19,28 @@
 
         <button type="submit">Update Inventory</button>
     </form>
-    <a href="/">Back to Home</a>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <h2>Current Inventory</h2>
+    <table border="1">
+        <tr>
+            <th>Item ID</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Warehouse Location</th>
+        </tr>
+        {% for item in inventory_list %}
+        <tr>
+            <td>{{ item.item_id }}</td>
+            <td>{{ item.item_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.warehouse_location }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/manager_dashboard">Back to Dashboard</a>
 </body>
 </html>

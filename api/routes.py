@@ -1,3 +1,4 @@
+import sqlite3
 from flask import Blueprint, request, jsonify
 from services.equipment_service import EquipmentManagementService
 from services.inventory_service import InventoryManagementService
@@ -45,20 +46,30 @@ def check_in():
 
 # Route for updating inventory
 @api_blueprint.route('/update_inventory', methods=['POST'])
-def update_inventory():
-    data = request.get_json()
-    item_id = data.get('item_id')
-    quantity = data.get('quantity')
-    warehouse_location = data.get('warehouse_location')
-    
-    if not item_id or quantity is None or not warehouse_location:
-        return jsonify({'error': 'item_id, quantity, and warehouse_location are required'}), 400
-    
-    result = inventory_service.update_inventory(item_id, quantity, warehouse_location)
-    if result:
-        return jsonify({'message': 'Inventory updated successfully'}), 200
-    else:
-        return jsonify({'error': 'Inventory could not be updated'}), 400
+def update_inventory(self, item_id, item_name, quantity, warehouse_location):
+    try:
+        connection = sqlite3.connect('equipment_tracking.db')
+        cursor = connection.cursor()
+        
+        # Check if the item exists in the inventory
+        cursor.execute("SELECT item_id FROM inventory WHERE item_id = ?", (item_id,))
+        result = cursor.fetchone()
+        
+        if result:
+            # Update the inventory item
+            cursor.execute("UPDATE inventory SET item_name = ?, quantity = ?, warehouse_location = ? WHERE item_id = ?",
+                           (item_name, quantity, warehouse_location, item_id))
+            connection.commit()
+            return True  # Indicate success
+        else:
+            return "Item not found"  # Indicate that the item does not exist
+
+    except sqlite3.Error as e:
+        # Log the error for debugging purposes
+        print(f"Database error occurred while updating inventory: {e}")
+        return False  # Indicate failure
+    finally:
+        connection.close()  # Ensure the connection is closed
 
 # Route for viewing inventory
 @api_blueprint.route('/get_inventory/<string:item_id>', methods=['GET'])

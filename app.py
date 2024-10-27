@@ -3,8 +3,9 @@
 
 from flask import Flask, redirect, url_for, render_template, request
 from api.routes import api_blueprint
-from services.equipment_service import equipment_service
+from services.equipment_service import EquipmentManagementService, equipment_service
 from services.user_service import user_service  # Import user_service
+from services.inventory_service import InventoryManagementService  # Import InventoryManagementService
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -28,19 +29,44 @@ def check_in_page():
     return render_template('check_in.html')
 
 # Route for updating inventory
-@app.route('/update_inventory')
+@app.route('/update_inventory', methods=['GET', 'POST'])
 def update_inventory_page():
-    return render_template('update_inventory.html')
+    inventory_service = InventoryManagementService()  # Instantiate the service
+    if request.method == 'POST':
+        item_id = request.form['item_id']
+        quantity = request.form['quantity']
+        warehouse_location = request.form['warehouse_location']
+        
+        # Fetch the item name based on the item ID
+        item = inventory_service.get_inventory(item_id)
+        if item:
+            item_name = item['item_name']
+            # Update the inventory with the correct item name
+            result = inventory_service.update_inventory(item_id, item_name, quantity, warehouse_location)
+            if result:
+                message = "Inventory updated successfully."
+            else:
+                message = "Failed to update inventory."
+        else:
+            message = "Item not found."
+
+    # Fetch all inventory to display
+    inventory_list = inventory_service.get_all_inventory()
+    return render_template('update_inventory.html', inventory_list=inventory_list, message=message if 'message' in locals() else None)
 
 # Route for viewing inventory
 @app.route('/view_inventory')
-def view_inventory_page():
-    return render_template('view_inventory.html')
+def view_inventory():
+    inventory_service = InventoryManagementService()  # Instantiate the service
+    inventory_list = inventory_service.get_all_inventory()  # Fetch all inventory
+    return render_template('view_inventory.html', inventory_list=inventory_list)
 
 # Route for viewing equipment
 @app.route('/view_equipment')
-def view_equipment_page():
-    return render_template('view_equipment.html')
+def view_equipment():
+    equipment_service = EquipmentManagementService()
+    equipment_list = equipment_service.get_all_equipment()
+    return render_template('view_equipment.html', equipment_list=equipment_list)
 
 # Route for viewing users
 @app.route('/view_users')
@@ -50,8 +76,9 @@ def view_users_page():
 
 # Route for viewing equipment history
 @app.route('/equipment_history')
-def equipment_history_page():
-    return render_template('equipment_history.html')
+def equipment_history():
+      equipment_history = equipment_service.get_all_equipment()  # Fetch the equipment history
+      return render_template('equipment_history.html', equipment_history=equipment_history)
 
 # Route for employee history search page
 @app.route('/employee_history_search')
