@@ -38,11 +38,11 @@ class EquipmentManagementService(EquipmentService):
             if result and result[0] == 'in':
                 # Update equipment status and assign it to the user
                 cursor.execute("UPDATE equipment SET status = ?, current_user_id = ? WHERE equipment_id = ?",
-                               ('checked_out', user_id, equipment_id))
+                               ('out', user_id, equipment_id))
                 connection.commit()
                 
                 # Log the equipment usage
-                self.log_equipment_usage(user_id, equipment_id, 'check_out')
+                self.log_equipment_usage(user_id, equipment_id, 'out')
                 
                 return True
             else:
@@ -63,9 +63,9 @@ class EquipmentManagementService(EquipmentService):
         # Check if the equipment is currently checked out by the user
         cursor.execute("SELECT status, current_user_id FROM equipment WHERE equipment_id = ?", (equipment_id,))
         result = cursor.fetchone()
-        if result and result[0] == 'checked_out' and result[1] == user_id:
+        if result and result[0] == 'out' and result[1] == int(user_id):
             # Update equipment status to available
-            cursor.execute("UPDATE equipment SET status = ?, current_user_id = NULL WHERE equipment_id = ?", ('available', equipment_id))
+            cursor.execute("UPDATE equipment SET status = ?, current_user_id = NULL WHERE equipment_id = ?", ('in', equipment_id))
             connection.commit()
             connection.close()
             return True

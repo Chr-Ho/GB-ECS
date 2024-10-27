@@ -5,7 +5,12 @@ import sqlite3
 conn = sqlite3.connect('equipment_tracking.db')
 cursor = conn.cursor()
 
-# Create the users table if it doesn't exist
+# Drop existing tables if they exist
+cursor.execute('DROP TABLE IF EXISTS equipment')
+cursor.execute('DROP TABLE IF EXISTS inventory')
+cursor.execute('DROP TABLE IF EXISTS users')
+
+# Create the users table
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY,
@@ -14,17 +19,17 @@ CREATE TABLE IF NOT EXISTS users (
 )
 ''')
 
-# Create the inventory table if it doesn't exist
+# Create the inventory table
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS inventory (
-        item_id TEXT PRIMARY KEY,
-        item_name TEXT NOT NULL,
-        quantity INTEGER NOT NULL,
-        warehouse_location TEXT NOT NULL
-    )
+CREATE TABLE IF NOT EXISTS inventory (
+    item_id TEXT PRIMARY KEY,
+    item_name TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    warehouse_location TEXT NOT NULL
+)
 ''')
 
-# Create the equipment table if it doesn't exist
+# Create the equipment table
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS equipment (
     equipment_id TEXT PRIMARY KEY,

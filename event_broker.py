@@ -43,7 +43,7 @@ class EventBroker:
                 else:
                     print(f"Failed to check in equipment {data['equipment_id']} by user {data['user_id']}")
             # update_inventory
-            elif event_type == 'update_inventory':  # Fixed typo here
+            elif event_type == 'update_inventory':
                 success = self.inventory_service.update_inventory(data['item_id'], data['quantity'], data['warehouse_location'])
                 if success:
                     print(f"Inventory for item {data['item_id']} updated with quantity {data['quantity']}")

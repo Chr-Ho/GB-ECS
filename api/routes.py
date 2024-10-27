@@ -29,8 +29,10 @@ def check_out():
 # Route for checking in equipment
 @api_blueprint.route('/check_in', methods=['POST'])
 def check_in():
-    user_id = request.form.get('user_id')  # Extract user_id from form data
-    equipment_id = request.form.get('equipment_id')  # Extract equipment_id from form data
+    user_id = request.form.get('user_id')
+    equipment_id = request.form.get('equipment_id')
+
+    print(f"Received user_id: {user_id}, equipment_id: {equipment_id}")  # Debugging line
 
     if not user_id or not equipment_id:
         return jsonify({'error': 'Missing user_id or equipment_id'}), 400
